@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My Django Blog</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
+
+</head>
+
+    <body>
+       
+        <div class="tm-header">
+            <div class="container-fluid">
+                <div class="tm-header-inner">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}" class="navbar-brand tm-site-name" style="text-transform: capitalize">
+                        Welcome, {{ user.username }}!
+                    </a>
+                    {% else %}
+                    <a href="{% url 'home' %}" class="navbar-brand tm-site-name">
+                        Welcome to my blog!
+                    </a>
+                    {% endif %}
+
+                    <!-- navbar -->
+                    <nav class="navbar tm-main-nav">
+
+                        <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse"
+                                data-target="#tmNavbar">
+                            &#9776;
+                        </button>
+                        
+                        <div class="collapse navbar-toggleable-sm" id="tmNavbar">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item active">
+                                    <a href="{% url 'home' %}" class="nav-link">Home</a>
+                                </li>
+                                {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a href="{% url 'new_post' %}" class="nav-link">New post</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'account' %}" class="nav-link">Account</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'register' %}" class="nav-link">Signup</a>
+                                </li>
+                                {% endif %}
+                            </ul>                        
+                        </div>
+                        
+                    </nav>  
+
+                </div>                                  
+            </div>            
+        </div>
+
+        <div class="tm-home-img-container">
+            <img src="{% static 'img/tm-home-img.jpg' %}" alt="Image" class="hidden-lg-up img-fluid">
+        </div>
+
+        <section class="tm-section">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-xs-center">
+                        <h2 class="tm-gold-text tm-title">This is my test blog</h2>
+                        <p class="tm-subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Aspernatur cumque eaque esse exercitationem itaque minima nisi nulla provident ratione,
+                            reiciendis. At doloremque fugit magni quae quaerat quam quia saepe sed.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for post in posts %}
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                        <div class="tm-content-box">
+                            {% if post.picture %}
+                            <img src="{{ post.picture.url }}"
+                                 alt="Image" class="tm-margin-b-20 img-fluid">
+                            {% else %}
+                            <img src="{% static 'img/tm-img-310x180-2.jpg' %}"
+                                 alt="Image" class="tm-margin-b-20 img-fluid">
+                            {% endif %}
+                            <a class="tm-margin-b-20 tm-gold-text"
+                               href="{% url 'detailed_post' post.slug %}">{{ post.title }}</a>
+                            {% if post.text|length > 200 %}
+                            <p class="tm-margin-b-20">{{ post.text|slice:":200" }}...</p>
+                            {% else %}
+                            <p class="tm-margin-b-20">{{ post.text }}</p>
+                            {% endif %}
+                            <a href="{% url 'detailed_post' post.slug %}" class="tm-btn text-uppercase">Detail</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                        {% include "pagination.html" with page=posts %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="tm-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 tm-copyright-col">
+                        <p class="tm-copyright-text">This is my blog 2023</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+        <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+       
+    </body>
+</html>

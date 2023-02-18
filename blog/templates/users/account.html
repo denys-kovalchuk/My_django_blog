@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My Django Blog</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/templatemo-style.css' %}">
+
+</head>
+
+<body>
+{% if user.is_authenticated %}
+        <div class="tm-header">
+            <div class="container-fluid">
+                <div class="tm-header-inner">
+                    <h3 class="navbar-brand tm-site-name">Welcome to my blog!</h3>
+
+                    <nav class="navbar tm-main-nav">
+                        <button class="navbar-toggler hidden-md-up" type="button"
+                                data-toggle="collapse" data-target="#tmNavbar">
+                            &#9776;
+                        </button>
+
+                        <div class="collapse navbar-toggleable-sm" id="tmNavbar">
+                            <ul class="nav navbar-nav">
+                                <li class="nav-item active">
+                                    <a href="{% url 'home' %}" class="nav-link">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                   <a href="{% url 'account_edit' %}" class="nav-link">Edit profile</a>
+                                </li>
+                                <li class="nav-item">
+                                   <a href="{% url 'edit_password' %}" class="nav-link">Edit password</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+
+        <img src="{% static 'img/account.jpg' %}" class="tm-blog-img-container">
+
+        <section class="tm-section">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9 col-xl-9">
+                        <div class="tm-blog-post">
+                            <h3 style="text-transform: capitalize">{{ user.username }}</h3>
+                            <hr>
+                            <p style="text-transform: capitalize">
+                                First name:
+                                <br>
+                                {{user.first_name}}
+                            </p>
+                            <p style="text-transform: capitalize">Last name: <br> {{user.last_name}}</p>
+                            <p>Email: <br> {{user.email}}</p>
+                            {% if user.author.mobile %}
+                            <p>Mobile: <br> {{user.author.mobile}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="tm-footer" style="padding-bottom: 49px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 tm-copyright-col">
+                        <p class="tm-copyright-text">This is my blog 2023</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+        <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+{% endif %}
+</body>
+</html>
+
+
+
